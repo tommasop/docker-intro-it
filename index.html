@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Intro to Docker</title>
+
+		<meta name="description" content="Intro to Docker">
+		<meta name="author" content="Docker Inc, adapted by John Lewis">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+		<div class="slides">
+	
+<section>
+	<h1>Docker</h1>
+	<div>
+		<img src="docker-img/docker.png" style="width: 432px; height: 376px; max-height: none; max-width: none;"/>
+		<br/>
+	</div>
+	<div>
+		Il contenuto delle slide è stata <i>ispirato</i> dal materiale di Docker, inc!
+		
+	</div>
+</section>
+		
+<section>
+	<h2>Dalla sua nascita nel Marzo 2013</h2>
+	<ul>
+		<li class="fragment" data-fragment-index="0">&gt;11,000 commits</li>
+		<li class="fragment" data-fragment-index="2">&gt;15,000 github stars</li>
+		<li class="fragment" data-fragment-index="3">&gt;200 significant contributors</li>
+		<li class="fragment" data-fragment-index="4">&gt;300 projects built on top of docker</li>
+		<ul>
+			<li class="fragment" data-fragment-index="4">UIs, mini-PaaS, Remote Desktop...</li>
+		</ul>
+		<li class="fragment" data-fragment-index="5">1000’s of Dockerized applications</li>
+		<ul>
+			<li class="fragment" data-fragment-index="5">Memcached, Redis, Node.js, Hadoop...</li>
+		</ul>
+		<li class="fragment" data-fragment-index="6">Integrazione con  Jenkins, Travis, Chef, Puppet, Vagrant and OpenStack</li>
+		<li class="fragment" data-fragment-index="7">Meetups around the world…</li>
+		<ul>
+			<li class="fragment" data-fragment-index="7">Ebay, Cloudflare, Yandex, and Rackspace utilizzano Docker ogni giorno</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<h2>Il problema:</h2>
+	<p>
+		<img src="docker-img/the-challenge.png">
+	</p>
+</section>
+
+<section>
+	<h2>Dove lo metto?</h2>
+	<p>
+		<img src="docker-img/the-matrix-from-hell.png">
+	</p>
+</section>
+
+<section>
+	<h2>Il Trasporto Merci Pre-1960</h2>
+	<p>
+		<img src="docker-img/cargo-transport-pre-1960.png">
+	</p>
+</section>
+
+<section>
+	<h2>Stessa situazione</h2>
+	<p>
+		<img src="docker-img/also-a-matrix-from-hell.png">
+	</p>
+</section>
+
+<section>
+	<h2>Un container per contenerli tutti</h2>
+	<p>
+		<img src="docker-img/intermodal-shipping-container.png">
+	</p>
+</section>
+
+<section>
+	<h2>Docker è un code-container</h2>
+	<p>
+		<img src="docker-img/shipping-container-for-code.png">
+	</p>
+</section>
+
+<section>
+	<h2>Elimina il problema alla radice</h2>
+	<p>
+		<img src="docker-img/eliminates-matrix-from-hell.png">
+	</p>
+</section>
+
+<section>
+	<h2>Prima Reazione</h2>
+	<p>
+		<img src="docker-img/standards.png">
+	</p>
+</section>
+
+<section>
+	<h2>Un problema</h2>
+	
+	<pre class="fragment" data-fragment-index="0" style="position:top"><code>Some packages could not be installed. This may mean that you have
+requested an impossible situation or if you are using the unstable
+distribution that some required packages have not yet been created
+or been moved out of Incoming.
+The following information may help to resolve the situation:
+
+The following packages have unmet dependencies:
+ package1 : Depends: package2 (>= 1.8) but 1.7.5-1ubuntu1 is to be installed
+E: Unable to correct problems, you have held broken packages.</code></pre>
+
+	<h2 class="fragment" data-fragment-index="1">La soluzione</h2>
+	<pre class="fragment" data-fragment-index="1"><code>sudo add-apt-repository ppa:package2</code></pre>
+
+</section>
+
+<section>
+
+	<h2>Sbagliato!</h2>
+	
+</section>
+
+<section>
+    <h2>Un container per lo sviluppatore</h2>
+    <div style="text-align: left;">
+        <p>Dentro il container:</p>
+        <ul>
+            <li class="fragment" data-fragment-index="0">Il mio codice</li>
+            <li class="fragment" data-fragment-index="0">Le mie librerie</li>
+            <li class="fragment" data-fragment-index="0">Il mio gestore di pacchetti</li>
+            <li class="fragment" data-fragment-index="0">La mia applicazione</li>
+            <li class="fragment" data-fragment-index="0">I miei dati</li>
+        </ul>
+    </div>
+    
+</section>
+<section>
+	<h2>Lo sviluppatore felice</h2>
+	<div style="text-align: left;">
+		Build once... (finally) run "anywhere"
+		<ul>
+			<li class="fragment" data-fragment-index="0">Un ambiente isolato, sicuro e scalabile per le vostre applicazioni</li>
+			<li class="fragment" data-fragment-index="1">Basta problemi di dipendenze, pacchetti o altri punti di rottura nelle fasi di deply</li>
+			<li class="fragment" data-fragment-index="2">Eseguire ogni applicazione nel suo container isolato, tante versioni di librerie o dipendenze</li>
+			<li class="fragment" data-fragment-index="3">Automatizzare testing, integration, packaging...tutto si può scrivere in uno script (del VOSTRO linguaggio)</li>
+			<li class="fragment" data-fragment-index="4">Per tutti i linguaggi e OS</li>
+			<li class="fragment" data-fragment-index="5">Reazioni istantanee di stop/start/snapshot di un servizio, altro che VMs!</li>
+			<li class="fragment" data-fragment-index="6">Più tempo per scrivere buon codice!</li>
+		</ul>
+	</div>
+</section>
+
+<section>
+    <h2>Un container per l'amministratore</h2>
+        <div style="text-align: left;">
+        <p>Fuori dal container:</p>
+            <ul>
+                <li class="fragment" data-fragment-index="0">Logging</li>
+                <li class="fragment" data-fragment-index="0">Remote access</li>
+                <li class="fragment" data-fragment-index="0">Network configuration</li>
+                <li class="fragment" data-fragment-index="0">Monitoring</li>
+            </ul>
+        </div>
+</section>
+
+
+<section>
+	<h2>L'amministratore felice</h2>
+	<div style="text-align: left;">
+	Configure once... run anything
+	<ul>
+		<li class="fragment" data-fragment-index="0">Ogni distro/cloud/server</li>
+		<li class="fragment" data-fragment-index="1">Un ciclo di vita efficente, replicabile e comodo da gestire</li>
+		<li class="fragment" data-fragment-index="2">Codice migliore == meno lavoro di mantenimento</li>
+		<li class="fragment" data-fragment-index="3">Eliminare risorse inutili e differenze tra ambienti di dev/test/prod</li>
+		<li class="fragment" data-fragment-index="4">Continuous deployment and continuous integration systems</li>
+		<li class="fragment" data-fragment-index="5">Un container si adatta ogni momento, le VMs sono per sempre</li>
+	</ul>
+</section>
+
+<section>
+
+<section>
+	<h2>Ma cos'è un Linux container?</h2>
+	<p>
+		<img src="docker-img/why-are-containers-lightwight.png">
+	</p>
+</section>
+
+<section>
+	<h2>Pro</h2>
+	<div>
+		<ul>
+			<li class="fragment" data-fragment-index="0">Run everywhere</li>
+			<ul class="fragment" data-fragment-index="0">
+				<li>Non è importante la distribuzione</li>
+				<li>Non è importante la versione del kernel</li>
+				<li>Physical or virtual, cloud or not</li>
+				Ma...
+				<li>Attenzione all'architettura dell'host e del container! (però c'è sempre kvm)</li>
+			</ul>
+			<li class="fragment" data-fragment-index="1">Run anything</li>
+			<ul class="fragment" data-fragment-index="1">
+				<li>Se può essere eseguito nell'host, può girare nel container</li>
+				<li>Se può essere eseguito sul kernel Linux, si può!</li>
+			</ul>
+		</ul>
+	</div>
+</section>
+
+<section>
+	<h2>Dall'alto al basso</h2>
+		<ul>
+			<li class="fragment" data-fragment-index="0">High level: a lightweight VM</li>
+			<ul class="fragment" data-fragment-index="0">
+				<li>Proprio process space</li>
+				<li>Propria network interface</li>
+				<li>È anche root</li>
+				<li>Il suo /sbin/init (diverso dell'host)</li>
+				<li>&lt;&lt;machine container&gt;&gt;</li>
+			</ul>
+			<li class="fragment" data-fragment-index="1">Low level: chroot on steroids</li>
+			<ul class="fragment" data-fragment-index="1">
+				<li>Può anche <i>non </i>avere il suo /sbin/init</li>
+				<li>Container = isolated processes</li>
+				<li>Condivide il kernel dell'host</li>
+                <li>No device emulation</li>
+				<li>&lt;&lt;application container&gt;&gt;</li>
+			</ul>
+		</ul>
+</section>
+
+<section>
+    <h2>Containers systems</h2>
+    <div>
+    <p><b>I soliti noti</b></p>
+    <ul>
+        <li class="fragment" data-fragment-index="0">Linux</li>
+        <ul>
+            <li class="fragment" data-fragment-index="0">OpenVZ</li>
+            <li class="fragment" data-fragment-index="0">LXC</li>
+            <li class="fragment" data-fragment-index="0">Libcontainer (Docker)</li>
+        </ul>
+        <li class="fragment" data-fragment-index="1">Others</li>
+        <ul>
+            <li class="fragment" data-fragment-index="1">Jail (FreeBSD)</li>
+            <li class="fragment" data-fragment-index="1">Zone (Solaris)</li>
+            <li class="fragment" data-fragment-index="1">App-V (Microsoft .NET)</li>
+        </ul>
+    </ul>
+    </div>
+</section>
+
+<section>
+    <h2>Performance</h2>
+        <ul>
+            <li class="fragment" data-fragment-index="0">I processi sono isolati, ma vengono eseguiti sull'host</li>
+            <li class="fragment" data-fragment-index="1">CPU performance == native performance
+            <li class="fragment" data-fragment-index="2">MEM performance == perdita di una micro % dell'host performance</li>
+            <li class="fragment" data-fragment-index="3">Network performance == native performance, ma dipendono dalla distribuzionen dei container</li>
+        </ul>
+</section>
+<section>
+    <h2>VMs vs Containers</h2>
+        <p>
+            <img src="docker-img/containers-vs-vms.png">
+        </p>
+</section>
+
+</section>
+
+<section>
+<section>
+	<h2>Come funziona un container Linux</h2>
+	<div>
+		<ul>
+			<li class="fragment" data-fragment-index="0">Namespace: isolamento dei processi</li>
+			<ul>
+				<li class="fragment" data-fragment-index="0">PID</li>
+				<li class="fragment" data-fragment-index="0">User</li>
+				<li class="fragment" data-fragment-index="0">Network</li>
+			</ul>
+			<li class="fragment" data-fragment-index="1">Cgroups: Resources management</li>
+			<li class="fragment" data-fragment-index="2">Copy-on-write Filesystem (AUFS)</li>
+			<li class="fragment" data-fragment-index="3">Linux Capabilities</li>
+			<li class="fragment" data-fragment-index="4">SElinux/Apparmor (stopdisablingselinux.com)</li>
+            <li class="fragment" data-fragment-index="5">Read-only mount point<br>(/sys /proc/sys /proc/sysrq-trigger /proc/irq /proc/bus)</li>
+		</ul>
+	</div>
+</section>
+
+<section>
+    <div>
+    <h2>Isolation with namespace</h2>
+    <ul>
+        <li class="fragment" data-fragment-index="0">pid</li>
+        <li class="fragment" data-fragment-index="0">mnt</li>
+        <li class="fragment" data-fragment-index="0">net</li>
+        <li class="fragment" data-fragment-index="0">uts</li>
+        <li class="fragment" data-fragment-index="0">ipc</li>
+        <li class="fragment" data-fragment-index="0">user</li>
+    </ul>
+</div>
+</section>
+
+<section>
+    <div>
+    <h2>Isolation with cgroups</h2>
+        <ul>
+            <li class="fragment" data-fragment-index="0">memory</li>
+            <li class="fragment" data-fragment-index="0">cpu</li>
+            <li class="fragment" data-fragment-index="0">blkio</li>
+            <li class="fragment" data-fragment-index="0">devices</li>
+        </ul>
+     </div>
+</section>
+
+<section>
+    <div>
+    <h2>Copy-on-write storage</h2>
+        <ul>
+            <li class="fragment" data-fragment-index="0">union filesystem<br>(AUFS, overlayfs)</li>
+            <li class="fragment" data-fragment-index="0">snapshot filesystem<br>(BTRFS, ZFS)</li>
+            <li class="fragment" data-fragment-index="0">copy-on-write block devices<br>(snapshot con LVM o device-mapper)</li>
+        </ul>
+    </div>
+</section>
+
+</section>
+
+<section>
+<section>
+    <h2>Containers do not contain</h2>
+    <div style="text-align: left;"><p>"Docker is about running random code downloaded from the Internet and running it as root."</p></div>
+    <ul>
+        <li class="fragment" data-fragment-index="0">Eseguire processi in un container NON è sicuro come in una VMs/KVM </li>
+        <li class="fragment" data-fragment-index="1">Scaricare immagini Docker casuali e lanciarle È COME eseguire codice casuale.</li>
+    </ul>
+</section>
+
+<section>
+    <div>
+        <h2>Best Practices</h2>
+        <ul>
+            <li class="fragment" data-fragment-index="0">Drop privileges</li>
+            <li class="fragment" data-fragment-index="1">Eseguire i servizi come non-root user</li>
+            <li class="fragment" data-fragment-index="2">Trattare root nel container come root nell'host</li>
+            <li class="fragment" data-fragment-index="3">Gestire le linux capabilities<br>(CAP_SYS_ADMIN)</li>
+            <li class="fragment" data-fragment-index="4">Non eseguire codice inutile nel container</li>
+            <li class="fragment" data-fragment-index="5">SElinux/Apparmor<br>(http://stopdisablingselinux.com)
+</section>
+
+</section>
+
+<section>
+
+<section>
+<h2>Non posso usare solo i container?</h2>
+</section>
+
+<section>
+    <h2>Si, ma....</h2>
+        <ul>
+            <li class="fragment" data-fragment-index="0">Stessa cosa per apt, dpkg, rpm, yum, etc
+            <li class="fragment" data-fragment-index="1">Perchè scrivere comandi inutili?</li>
+            <li class="fragment" data-fragment-index="2">Pensare in grande... scalabilità</li>
+            <li class="fragment" data-fragment-index="3">Costruisci blocchi, non pezzi casuali</li>
+            <li class="fragment" data-fragment-index="4">Standard, facile, veloce</li>
+            <li class="fragment" data-fragment-index="5">Crea e condividi immagini</li>
+            <li class="fragment" data-fragment-index="6">E poi... la comodità?</li>
+        </ul>
+        </section>
+        </section>
+
+<section>
+    <h2>Docker... il cuore</h2>
+    <ul>
+        <li class="fragment" data-fragment-index="0">Scritto sulla pase del container engine di dotCloud</li>
+            <ul>
+                <li class="fragment" data-fragment-index="0">Versione originale: python</li>
+                <li class="fragment" data-fragment-index="0">Versione attuale: Go/Python</li>
+            </ul>
+        <li class="fragment" data-fragment-index="1">Demone Docker in background</li>
+        <ul>
+            <li class="fragment" data-fragment-index="1">Gestisce container, immagini, build</li>
+            <li class="fragment" data-fragment-index="1">HTTP API</li>
+            <li class="fragment" data-fragment-index="1">CLI</li>
+        </ul>    
+        <li class="fragment" data-fragment-index="2">Open Source (GitHub)</li>
+    </ul>
+    </section>   
+
+    <section>
+    <section>
+    <h2>Immagini Docker</h2>
+    <div>
+	<p>
+		<img src="docker-img/basics-of-docker-system.png">
+	</p>
+</section>
+
+<section>
+    <h2>Scrivere da run/commit</h2>
+    <div style="text-align: left;">
+    <ol style="text-align: left;">
+            <li class="fragment" data-fragment-index="0">docker run ubuntu bash</li>
+            <li class="fragment" data-fragment-index="0">apt-get install pacchetto1 lib1</li>
+            <li class="fragment" data-fragment-index="0">docker commit &lt;containerid&gt; &gt;imagename&gt;</li>
+            <li class="fragment" data-fragment-index="0">docker run &lt;imagename&gt; bash</li>
+            <li class="fragment" data-fragment-index="0">git clone... \ pip install\ etc</li>
+            <li class="fragment" data-fragment-index="0">docker commit &lt;containerid&gt; &lt;imagename&gt;</li>
+            <li class="fragment" data-fragment-index="0">docker commit &lt;containerid&gt; &lt;imagename&gt;</li>
+            <li class="fragment" data-fragment-index="0">docker tag &lt;imagename&gt; &lt;user/image&gt;</li>
+            <li class="fragment" data-fragment-index="0">docker push &lt;user/image&gt;</li>
+
+
+        </ol>
+    </div>
+        </section>
+
+<section>
+    <h2>Scrivere un Dockerfile</h2>
+    <pre>
+        FROM debian:wheezy<br>
+        RUN apt-get update<br>
+        RUN apt-get -y install ruby ruby-dev build-essential git libopenssl-ruby libxslt-dev libxml2-dev<br>
+        RUN useradd banana -u 1000 -s /bin/bash --no-create-home<br>
+        <br>
+        RUN gem install -n /usr/bin bundler<br>
+        RUN gem install -n /usr/bin rake<br>
+        <br>                                          
+        WORKDIR /home/vidarh/<br>
+        ENV HOME /home/vidarh<br>
+        <br>                      
+        VOLUME ["/home"]<br>
+        USER banana<br>
+        EXPOSE 8080<br>
+
+    </pre>
+
+</section>
+
+<section>
+    <div>
+    <h2>Usare Docker Hub</h2>
+    <p>Vantaggi:</p>
+    <ul>
+        <li class="fragment" data-fragment-index="0">Registro remoto per le immagini</li>
+        <li class="fragment" data-fragment-index="0">Immagini ufficiali di docker/distro/app</li>
+        <li class="fragment" data-fragment-index="0">Download sicuro</li>
+        <li class="fragment" data-fragment-index="0">GitHub Account</li>
+        <li class="fragment" data-fragment-index="0">Comodo punto di partenza</li>
+    </ul>
+</div>
+</section>
+
+<section>
+	<h2>Applicazioni</h2>
+	<p>
+		<img src="docker-img/changes-and-updates.png">
+	</p>
+    </section>
+    </section>
+
+<section>
+<section>
+    <div>
+    <h2>Lanciare un container</h2>
+    <p>Docker run...</p>
+    <ul>
+        <li class="fragment" data-fragment-index="0">Singolo comando</li>
+        <li class="fragment" data-fragment-index="0">Container in background</li>
+        <li class="fragment" data-fragment-index="0">Gestione dei volumi</li>
+        <li class="fragment" data-fragment-index="0">Velocissimo</li>
+    </ul>
+</div>
+</section>
+
+<section>
+    <h2>Orchestration</h2>
+    <ul>
+        <li class="fragment" data-fragment-index="0">Linking container<br>container-a:container-b</li>
+        <li class="fragment" data-fragment-index="0">Provisioning<br>salt, puppet, cloud ide, etc</li>
+        <li class="fragment" data-fragment-index="0">Service discovery</li>
+        <li class="fragment" data-fragment-index="0">Dns/hostname</li>
+    </ul>
+</section>
+
+</section>
+
+<section>
+<section>
+	<h2>Ecosystem Support</h2>
+	<font style="font-size: 28px; line-height: 1.1em; ">
+		<ul>
+			<li class="fragment" data-fragment-index="0">Operating systems</li>
+			<ul>
+				<li class="fragment" data-fragment-index="0">Virtually any distribution with a 2.6.32+ kernel</li>
+				<li class="fragment" data-fragment-index="0">CoreOS—Small core OS purpose built with Docker</li>
+			</ul>
+			<li class="fragment" data-fragment-index="1">OpenStack</li>
+			<ul>
+				<li class="fragment" data-fragment-index="1">Docker integration into NOVA (&amp; compatibility with Glance, Horizon, etc.) accepted for Havana release</li>
+			</ul>
+			<li class="fragment" data-fragment-index="2">Private PaaS</li>
+			<ul>
+				<li data-fragment-index="2" class="fragment">OpenShift, Solum (Rackspace, OpenStack), Other TBA</li>
+			</ul>
+			<li class="fragment" data-fragment-index="3">Public PaaS</li>
+			<ul>
+				<li data-fragment-index="3" class="fragment">Deis, Voxoz, Cocaine (Yandex), Baidu PaaS</li>
+			</ul>
+			<li data-fragment-index="4" class="fragment">Public IaaS</li>
+			<ul>
+				<li data-fragment-index="4" class="fragment">Native support in Rackspace, Digital Ocean,+++</li>
+				<li data-fragment-index="4" class="fragment">AMI (or equivalent) available for AWS &amp; other</li>
+			</ul>
+			<li data-fragment-index="5" class="fragment">DevOps Tools</li>
+			<ul>
+				<li data-fragment-index="5" class="fragment">Integrations with Chef, Puppet, Jenkins, Travis, Salt, Ansible +++</li>
+			</ul>
+			<li data-fragment-index="6" class="fragment">Orchestration tools</li>
+			<ul>
+				<li data-fragment-index="6" class="fragment">Kubernetes, Mesos, Heat, ++</li>
+				<li data-fragment-index="6" class="fragment">Shipyard &amp; others purpose built for Docker</li>
+			</ul>
+			<li data-fragment-index="7" class="fragment">Applications</li>
+			<ul>
+				<li data-fragment-index="7" class="fragment">1000’s of Dockerized applications available at index.docker.io</li>
+			</ul>
+		</ul>
+	</font>
+</section>
+
+<section>
+	<h2>Ecosystem (a colori!)</h2>
+	<p>
+		<img src="docker-img/docker-eco.png">
+	</p>
+    </section>
+
+<section>
+    <h2>Senza dimenticare</h2>
+</section>
+
+<section>
+    <h2>Windows server...</h2>
+    <p>
+        <img src="docker-img/docker-windows.png">
+    </p>
+</section>
+
+
+</section>
+
+<section>
+	<h2>Want to Learn More?</h2>
+	<ul>
+		<li><a href="http://www.docker.io/">www.docker.io</a></li>
+		<ul>
+			<li>Documentation</li>
+			<li>Getting started (tutorial, installation, guide, etc)</li>
+			<li>Introductory <a href="http://www.docker.io/the-whole-story/">whitepaper</a></li>
+		</ul>
+		<li>Github: <a href="http://github.com/dotcloud/docker">dotcloud/docker</a></li>
+		<li>IRC: freenode #docker</li>
+		<li>Google Group: <a href="https://groups.google.com/forum/#!forum/docker-user">docker-user</a></li>
+		<li>Twitter: <a href="http://twitter.com/docker">@docker</a></li>
+		<li>Meetups: <a href="http://www.docker.io/meetups">www.docker.io/meetups</a></li>
+	</ul>
+</section>
+
+</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				
+				width: 1366,
+				height: 768,
+				margin: 0.1,
+				minScale: 0.2,
+				maxScale: 1.2,
+	
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
