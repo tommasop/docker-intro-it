@@ -43,7 +43,7 @@
 		<br/>
 	</div>
 	<div>
-		Il contenuto delle slide è stata <i>ispirato</i> dal materiale di Docker, inc!
+    Il contenuto delle slide è liberamente <strike>rubato</strike> <i>ispirato</i> dal materiale di Docker, inc!
 		
 	</div>
 </section>
@@ -51,24 +51,42 @@
 <section>
 	<h2>Dalla sua nascita nel Marzo 2013</h2>
 	<ul>
-		<li class="fragment" data-fragment-index="0">&gt;11,000 commits</li>
-		<li class="fragment" data-fragment-index="2">&gt;15,000 github stars</li>
-		<li class="fragment" data-fragment-index="3">&gt;200 significant contributors</li>
-		<li class="fragment" data-fragment-index="4">&gt;300 projects built on top of docker</li>
+		<li class="fragment" data-fragment-index="0">&gt;27.600 commits</li>
+		<li class="fragment" data-fragment-index="2">&gt;35.400 github stars</li>
+		<li class="fragment" data-fragment-index="3">&gt;1.507 contributors</li>
+		<li class="fragment" data-fragment-index="4">&gt;circa mille progetti basati su docker</li>
 		<ul>
 			<li class="fragment" data-fragment-index="4">UIs, mini-PaaS, Remote Desktop...</li>
 		</ul>
-		<li class="fragment" data-fragment-index="5">1000’s of Dockerized applications</li>
+		<li class="fragment" data-fragment-index="5">460K applicazioni Dockerizzate, con una crescita del 3100% negli ultimi due anni</li>
 		<ul>
 			<li class="fragment" data-fragment-index="5">Memcached, Redis, Node.js, Hadoop...</li>
 		</ul>
 		<li class="fragment" data-fragment-index="6">Integrazione con  Jenkins, Travis, Chef, Puppet, Vagrant and OpenStack</li>
-		<li class="fragment" data-fragment-index="7">Meetups around the world…</li>
+		<li class="fragment" data-fragment-index="7">Centinaia di meetup nel mondo…</li>
 		<ul>
 			<li class="fragment" data-fragment-index="7">Ebay, Cloudflare, Yandex, and Rackspace utilizzano Docker ogni giorno</li>
 		</ul>
 	</ul>
 </section>
+
+<section>
+  <h2>Docker... il cuore</h2>
+  <ul>
+    <li class="fragment" data-fragment-index="0">Scritto sulla base del container engine di dotCloud</li>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Versione originale: python</li>
+      <li class="fragment" data-fragment-index="0">Versione attuale: C/Go</li>
+    </ul>
+    <li class="fragment" data-fragment-index="1">Demone Docker in background</li>
+    <ul>
+      <li class="fragment" data-fragment-index="1">Gestisce container, immagini, build</li>
+      <li class="fragment" data-fragment-index="1">HTTP API</li>
+      <li class="fragment" data-fragment-index="1">CLI</li>
+    </ul>    
+    <li class="fragment" data-fragment-index="2">Open Source (GitHub)</li>
+  </ul>
+</section>   
 
 <section>
 	<h2>Il problema:</h2>
@@ -99,7 +117,7 @@
 </section>
 
 <section>
-	<h2>Un container per contenerli tutti</h2>
+	<h2>Un container per domarli ...</h2>
 	<p>
 		<img src="docker-img/intermodal-shipping-container.png">
 	</p>
@@ -164,6 +182,7 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
     </div>
     
 </section>
+
 <section>
 	<h2>Lo sviluppatore felice</h2>
 	<div style="text-align: left;">
@@ -201,7 +220,7 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
 	<ul>
 		<li class="fragment" data-fragment-index="0">Ogni distro/cloud/server</li>
 		<li class="fragment" data-fragment-index="1">Un ciclo di vita efficente, replicabile e comodo da gestire</li>
-		<li class="fragment" data-fragment-index="2">Codice migliore == meno lavoro di mantenimento</li>
+		<li class="fragment" data-fragment-index="2">Codice migliore = meno lavoro di mantenimento</li>
 		<li class="fragment" data-fragment-index="3">Eliminare risorse inutili e differenze tra ambienti di dev/test/prod</li>
 		<li class="fragment" data-fragment-index="4">Continuous deployment and continuous integration systems</li>
 		<li class="fragment" data-fragment-index="5">Un container si adatta ogni momento, le VMs sono per sempre</li>
@@ -225,9 +244,6 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
 			<ul class="fragment" data-fragment-index="0">
 				<li>Non è importante la distribuzione</li>
 				<li>Non è importante la versione del kernel</li>
-				<li>Physical or virtual, cloud or not</li>
-				Ma...
-				<li>Attenzione all'architettura dell'host e del container! (però c'è sempre kvm)</li>
 			</ul>
 			<li class="fragment" data-fragment-index="1">Run anything</li>
 			<ul class="fragment" data-fragment-index="1">
@@ -285,9 +301,9 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
     <h2>Performance</h2>
         <ul>
             <li class="fragment" data-fragment-index="0">I processi sono isolati, ma vengono eseguiti sull'host</li>
-            <li class="fragment" data-fragment-index="1">CPU performance == native performance
-            <li class="fragment" data-fragment-index="2">MEM performance == perdita di una micro % dell'host performance</li>
-            <li class="fragment" data-fragment-index="3">Network performance == native performance, ma dipendono dalla distribuzionen dei container</li>
+            <li class="fragment" data-fragment-index="1">CPU performance = native performance
+            <li class="fragment" data-fragment-index="2">MEM performance = perdita di una micro % della performance rispetto all'host</li>
+            <li class="fragment" data-fragment-index="3">Network performance = native performance, ma dipendono dalla distribuzione dei container</li>
         </ul>
 </section>
 <section>
@@ -297,9 +313,6 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
         </p>
 </section>
 
-</section>
-
-<section>
 <section>
 	<h2>Come funziona un container Linux</h2>
 	<div>
@@ -356,9 +369,6 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
     </div>
 </section>
 
-</section>
-
-<section>
 <section>
     <h2>Containers do not contain</h2>
     <div style="text-align: left;"><p>"Docker is about running random code downloaded from the Internet and running it as root."</p></div>
@@ -380,48 +390,7 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
             <li class="fragment" data-fragment-index="5">SElinux/Apparmor<br>(http://stopdisablingselinux.com)
 </section>
 
-</section>
-
 <section>
-
-<section>
-<h2>Non posso usare solo i container?</h2>
-</section>
-
-<section>
-    <h2>Si, ma....</h2>
-        <ul>
-            <li class="fragment" data-fragment-index="0">Stessa cosa per apt, dpkg, rpm, yum, etc
-            <li class="fragment" data-fragment-index="1">Perchè scrivere comandi inutili?</li>
-            <li class="fragment" data-fragment-index="2">Pensare in grande... scalabilità</li>
-            <li class="fragment" data-fragment-index="3">Costruisci blocchi, non pezzi casuali</li>
-            <li class="fragment" data-fragment-index="4">Standard, facile, veloce</li>
-            <li class="fragment" data-fragment-index="5">Crea e condividi immagini</li>
-            <li class="fragment" data-fragment-index="6">E poi... la comodità?</li>
-        </ul>
-        </section>
-        </section>
-
-<section>
-    <h2>Docker... il cuore</h2>
-    <ul>
-        <li class="fragment" data-fragment-index="0">Scritto sulla pase del container engine di dotCloud</li>
-            <ul>
-                <li class="fragment" data-fragment-index="0">Versione originale: python</li>
-                <li class="fragment" data-fragment-index="0">Versione attuale: Go/Python</li>
-            </ul>
-        <li class="fragment" data-fragment-index="1">Demone Docker in background</li>
-        <ul>
-            <li class="fragment" data-fragment-index="1">Gestisce container, immagini, build</li>
-            <li class="fragment" data-fragment-index="1">HTTP API</li>
-            <li class="fragment" data-fragment-index="1">CLI</li>
-        </ul>    
-        <li class="fragment" data-fragment-index="2">Open Source (GitHub)</li>
-    </ul>
-    </section>   
-
-    <section>
-    <section>
     <h2>Immagini Docker</h2>
     <div>
 	<p>
@@ -442,11 +411,9 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
             <li class="fragment" data-fragment-index="0">docker commit &lt;containerid&gt; &lt;imagename&gt;</li>
             <li class="fragment" data-fragment-index="0">docker tag &lt;imagename&gt; &lt;user/image&gt;</li>
             <li class="fragment" data-fragment-index="0">docker push &lt;user/image&gt;</li>
-
-
         </ol>
     </div>
-        </section>
+</section>
 
 <section>
     <h2>Scrivere un Dockerfile</h2>
@@ -489,10 +456,8 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
 	<p>
 		<img src="docker-img/changes-and-updates.png">
 	</p>
-    </section>
-    </section>
+</section>
 
-<section>
 <section>
     <div>
     <h2>Lanciare un container</h2>
@@ -567,7 +532,7 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
 	<p>
 		<img src="docker-img/docker-eco.png">
 	</p>
-    </section>
+</section>
 
 <section>
     <h2>Senza dimenticare</h2>
