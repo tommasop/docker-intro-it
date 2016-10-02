@@ -228,6 +228,729 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
 </section>
 
 <section>
+  <section>
+    <h2>Installare Docker</h2>
+    <p>
+    <img src="docker-img/install.jpg">
+    </p>
+  </section>
+
+  <section>
+    <h2>Installazione di Docker</h2>
+    <h3>Obiettivi</h3>
+    <p>
+    Al termine dell'installazione saprete:
+    </p>
+    <ul>
+      <li>Come installare Docker</li>
+      <li>Quando utilizzare <code>sudo</code> nell'esecuzione dei comandi Docker</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Installazione di Docker</h2>
+    <p>Docker è facile da installare.</p>
+    <p>
+    Può essere installato su:
+    </p>
+    <ul>
+      <li>Una grande varità di distribuzioni Linux</li>
+      <li>OSX attraverso una macchina virtuale</li>
+      <li>Microsoft Windows attraverso una macchina virtuale</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Installazione di Docker in OSX e Microsoft Windows</h2>
+    <p>Docker non gira nativamente in OSX e Microsoft Windows.</p>
+    <p>
+    Ci sono tre modi per installare Docker in OSX e Microsoft Windows:
+    </p>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Utilizzare Docker Mac o Docker Windows (raccomandato)</li>
+      <li class="fragment" data-fragment-index="1">Utilizzare la Docker Toolbox (precdentemente raccomandato)</li>
+      <li class="fragment" data-fragment-index="2">Installare tutto manualmente in una macchina virtuale (VirtualBox ecc.)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Lanciare Docker in OSX e Windows</h2>
+    <p>Quando si esegue <code>docker version</code> da un terminale:</p>
+    <ul>
+      <li class="fragment" data-fragment-index="0">la CLI si connette al Docker Engine attraverso un socket standard,</li>
+      <li class="fragment" data-fragment-index="1">il Docker Engine in realtà sta girando in una macchina virtuale,</li>
+      <li class="fragment" data-fragment-index="2">... ma la CLI non lo sa e non le interessa,</li>
+      <li class="fragment" data-fragment-index="3">la CLI invia una richiesta attraverso l'API REST,</li>
+      <li class="fragment" data-fragment-index="4">il Docker Engine nella VM processa la richiesta,</li>
+      <li class="fragment" data-fragment-index="5">la CLI riceve la risposta e la mostra nel terminale.</li>
+    </ul>
+    <p class="fragment" data-fragment-index="6">Tutte le comunicazioni con il Docker Engine avvengono attraverso l'API.</p>
+    <p class="fragment" data-fragment-index="7">Questo consentirà anche l'utilizzo di Engine remoti esattamente come se fossero locali.</p>
+  </section>
+  
+  <section>
+    <h2>Installazione manuale ...</h2>
+    <blockquote>WHY?</blockquote>
+    <p>
+      In ogni caso non è molto difficile la procedura comporta due step:
+    </p>
+    <ol>
+      <li class="fragment" data-fragment-index="0">Installare un sistema per la virtualizzazione</li>
+      <li class="fragment" data-fragment-index="1">Installare docker tramite un package manager</li>
+    </ol>
+  </section>
+  
+  <section>
+    <h2>Utilizzare la Docker Toolbox</h2>
+    <p>La Docker Toolbox installa i seguenti componenti:</p>
+    <ul>
+      <li class="fragment" data-fragment-index="0">VirtualBox + Boot2Docker VM image (Docker Engine)</li>
+      <li class="fragment" data-fragment-index="1">Kitematic GUI</li>
+      <li class="fragment" data-fragment-index="2">Docker CLI</li>
+      <li class="fragment" data-fragment-index="3">Docker Machine\</li>
+      <li class="fragment" data-fragment-index="4">Docker Compose</li>
+      <li class="fragment" data-fragment-index="5">Una serie di utili wrapper</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Boot2Docker ... WHAT'S BOOT2DOCKER???</h2>
+    <p>E' una immagine VM molto piccola (~30MB).</p>
+    <p>Funziona sulla maggio parte degli hypervisors e può essere lanciata direttamente anche dal metal.</p>
+    <p>Boot2Docker non è una versione "lite" di Docker</p>
+    <p>
+    <img src="docker-img/boot2docker.png">
+    </p>
+  </section>
+
+  <section>
+    <h2>Docker OSX e Docker Windows</h2>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Docker Mac e Docker Windows sono i prodotti più recenti</li>
+      <li class="fragment" data-fragment-index="1">Consentono di far partire Docker senza VirtualBox</li>
+      <li class="fragment" data-fragment-index="2">Sono installati come normali applicazioni (pensate a una cosa tipo QEMU ma più veloce)</li>
+      <li class="fragment" data-fragment-index="3">Forniscono una migliore integrazione con le VPN enterprise</li>
+      <li class="fragment" data-fragment-index="4">Supportano la condivisione del filesystem attraverso i volumi</li>
+      <li class="fragment" data-fragment-index="5">la CLI riceve la risposta e la mostra nel terminale.</li>
+    </ul>
+    <p class="fragment" data-fragment-index="6">L'unico limite attuale è che può essere lanciata una sola istanza alla volta quindi 
+    se si vuole creare un cluster su una sola macchina è necessario utilizzare Docker Toolbox.
+    I due strumenti possono essere installati insieme coesistendo in pace e prosperità ;)</p>
+  </section>
+  
+  <section>
+    <h2>Take some SUDO with you!</h2>
+    <p>
+      <img src="docker-img/sudo-1.jpg"/>
+    </p>
+  </section>
+
+  <section>
+    <h2>Caveat importanti sulla sicurezza</h2>
+    <p>L'utente <code>docker</code> è l'equivalente dell'utente <code>root</code></p>
+    <p>Fornisce un accesso di livello <code>root</code> all'host</p>
+    <p>E' necessario quindi proteggerl come si protegge l'utente<code>root</code></p>
+    <p>Se date a qualcuno accesso all'API docker gli state dando accesso completo alla macchina</p>
+    <p>Per questo il socket per controllare Docker è di default di proprietà del gruppo <code>docker</code>
+    per evitrare accesso non autorizzato in macchine multi utente</p>
+    <p>Se il vostro utente non è nel gruppo <code>docker</code> dovrete utilizzare <code>sudo</code> 
+    davanti ad ogni comando es. <code>sudo docker version</code></p>
+  </section>
+</section>
+
+<section>
+  <section>
+    <h2>I nostri primi containers</h2>
+    <p>
+    <img src="docker-img/firstcontainers.jpg">
+    </p>
+  </section>
+  
+  <section>
+    <h2>I nostri primi containers</h2>
+    <h3>Obiettivi</h3>
+    <p>
+    Al termine di questa parte del corso avrete:
+    </p>
+    <ul>
+      <li>Visto Docker in azione.</li>
+      <li>Avrete fatto partire i vostri primi containers.</li>
+    </ul>
+  </section>
+  
+  <section>
+    <h2>Architettura di Docker</h2>
+    <p>Docker è un'applicazione client-server.</p>
+    <ul>
+      <li class="fragment" data-fragment-index="0"><strong>Il Docker Engine (o "daemon")</strong>
+        riceve e processa tutte le chiamate effettuate all'API
+      </li>
+      <li class="fragment" data-fragment-index="1"><strong>Il Docker client</strong>
+        Parla con il demone Docker attraverso l'API Docker.
+        Utilizzeremo principalmente la CLI embedded nel binario <code>docker</code>
+      </li>
+      <li class="fragment" data-fragment-index="2"><strong>Docker Hub Registry</strong>
+        Collezione di immagini pubbliche.
+        Il demone Docker parla con l'hub attraverso l'API del registry.
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Hello World</h2>
+    <p>
+      Nel vostro ambiente Docker eseguite questo comando:
+    </p>
+    <pre>
+      <code>$ docker run busybox echo hello world
+           hello world</code>
+    </pre>
+  </section>
+
+  <section>
+    <h2>Il nostro primo container!</h2>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Abbiamo utilizzato una delle immagini più piccole e semplici: <code>busybox</code></li>
+      <li class="fragment" data-fragment-index="1"><code>busybox</code> viene di solito utilizzata per sistemi embedded (telefoni, router ecc.)</li>
+      <li class="fragment" data-fragment-index="2">Abbiamo lanciato un solo processo e stampato <code>hello world</code></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Un container più utile</h2>
+    <p>
+      Eseguiamo ora un container un po' più interessante:
+    </p>
+    <pre>
+      <code>$ docker run -it ubuntu 
+           root@04c0bb0a6c07:/#</code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Un container nuovo di zecca.</li>
+      <li class="fragment" data-fragment-index="1">Esegue una versione minimale del sistema <code>ubuntu</code>.</li>
+      <li class="fragment" data-fragment-index="2"><code>-it</code> è un'abbreviazione per <code>-i -t</code>.
+        <ul>
+          <li class="fragment" data-fragment-index="3"><code>-i</code> dice a Docker di connetterci alla stdin del container.</li>
+          <li class="fragment" data-fragment-index="4"><code>-t</code> dice a Docker che vogliamo uno pseudo terminale.</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Facciamo qualcosa nel nostro container</h2>
+    <p>
+      Proviamo ad eseguire il comando <code>figlet</code> nel nostro container.
+    </p>
+    <pre>
+      <code>
+           root@04c0bb0a6c07:/# figlet hello
+         bash: figlet: <b>command</b> not found
+      </code>
+    </pre>
+    <p>
+      Sembra che dobbiamo installare <code>figlet</code>.
+    </p>
+  </section>
+  
+  <section>
+    <h2>Un'osservazione</h2>
+    <p>
+     Vediamo quanti pacchetti abbiamo installati nel nostro container:
+    </p>
+    <pre>
+      <code>
+           root@04c0bb0a6c07:/# dpkg -l | wc -l
+           103
+      </code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0"><code>dpkg -l</code> elenca tutti i pacchetti installati nel nostro container</li>
+      <li class="fragment" data-fragment-index="1"><code>wc -l</code> li conta.</li>
+      <li class="fragment" data-fragment-index="2">Se avete a disposizione una macchina Debian o Ubuntu potete fare un confronto.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Installare un package nei nostri container</h2>
+    <p>
+      Vogliamo <code>figlet</code>, quindi installiamocelo!
+    </p>
+    <pre>
+      <code data-trim data-noescape>
+root@04c0bb0a6c07:/# apt-get update
+...
+Fetched 1514 kB in 14s (103 kB/s)
+Reading package lists... Done
+root@04c0bb0a6c07:/# apt-get install figlet
+Reading package lists... Done
+...
+      </code>
+    </pre>
+    <p>
+      Tra un minuto <code>figlet</code> sarà installato!
+    </p>
+    <pre>
+      <code data-trim>
+ root@04c0bb0a6c07:/# figlet hello
+ _          _ _       
+| |__   ___| | | ___  
+| '_ \ / _ \ | |/ _ \ 
+| | | |  __/ | | (_) |
+|_| |_|\___|_|_|\___/ 
+      </code>
+    </pre>
+  </section>
+
+  <section>
+    <h2>Uscire da un container</h2>
+    <p>
+      E' sufficiente uscire dalla shell come fareste da una qualsiasi shell
+      (es. con <code>^D</code> o <code>exit</code>)
+    </p>
+    <pre>
+      <code>
+           root@04c0bb0a6c07:/# exit
+      </code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Il nostro container è ora nello stato <i>stopped</i>.</li>
+      <li class="fragment" data-fragment-index="1">Esiste ancora nel disco ma tutte le sue risorse di calcolo sono state rese disponibili.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Eseguire un altro container</h2>
+    <p>
+      Cosa succede se facciamo partire un nuovo container e cerchiamo di eseguirci <code>figlet</code>?
+    </p>
+    <pre>
+      <code>
+docker run -it ubuntu
+root@b13c164401fb:/# figlet
+bash: figlet: <b>command</b> not found
+      </code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Abbiamo lanciato un nuovo container</li>
+      <li class="fragment" data-fragment-index="1">Abbiamo utilizzato l'immagine base di Ubuntu e <code>figlet</code> non è installato.</li>
+      <li class="fragment" data-fragment-index="2">A breve vedremo come preparare un'immagine customizzata che contenga <code>figlet</code></li>
+    </ul>
+  </section>
+</section>
+
+
+<section>
+  <section>
+    <h2>Background containers</h2>
+    <p>
+    <img src="docker-img/background-containers.jpg">
+    </p>
+  </section>
+
+  <section>
+    <h2>Background containers</h2>
+    <h3>Obiettivi</h3>
+    <p>
+      I nostri primi container erano interattivi.
+    </p>
+    <p>
+      Ora vedremo come:
+    </p>
+    <ul>
+      <li>Eseguire un container non interattivo.</li>
+      <li>Eseguire un container nel background.</li>
+      <li>Elencare i container in esecuzione.</li>
+      <li>Controllare i log dei container.</li>
+      <li>Arrestare un container.</li>
+      <li>Elencare i container arrestati.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Un container non interattivo</h2>
+    <p>
+      Eseguiremo un piccolo container personalizzato.
+    </p>
+    <p>
+      Il suo unico task è quello di mostrare il tempo ogni secondo.
+    </p>
+    <pre>
+      <code>
+docker run jpetazzo/clock
+Sun Oct 02 00:28:53 UTC 2016
+Sun Oct 02 00:28:54 UTC 2016
+Sun Oct 02 00:28:55 UTC 2016
+...
+      </code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Questo container continua la sua esecuzione in eterno!</li>
+      <li class="fragment" data-fragment-index="1">Per arrestarlo digitate: <code>^C</code>.</li>
+      <li class="fragment" data-fragment-index="2">Docker ha scaricato automaticamente l'immagine jpetazzo/clock.</li>
+      <li class="fragment" data-fragment-index="3">Questa immagine è un'immagine utente creata dall'utente <code>jpetazzo</code>.</li>
+      <li class="fragment" data-fragment-index="4">Parleremo più diffusamente di immagini utente (e altri tipi di immagine).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Eseguire un container in background</h2>
+    <p>
+      I container possono essere eseguiti in background attraverso il flag <code>-d</code> (daemon mode).
+    </p>
+    <pre>
+      <code>
+docker run -d jpetazzo/clock
+47d677dcfba4277c6cc68fcaa51f932b544cab1a187c853b7d0caf4e8debe5ad
+      </code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Non vediamo l'output del container.</li>
+      <li class="fragment" data-fragment-index="1">Ma non c'è motivo di preoccuparsi, Docker lo fa per noi inserendolo nei log.</li>
+      <li class="fragment" data-fragment-index="2">Docker ci fornisce l'ID del container.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Elencare i container in esecuzione</h2>
+    <p>
+      Come possiamo controllare se il nostro container è ancora in esecuzione?
+    </p>
+    <p>
+       Il comando <code>docker ps</code>, in maniera speculare al comando <code>ps</code> in UNIX, elenca i processi in esecuzione.
+    </p>
+    <pre>
+      <code>
+docker ps 
+CONTAINER ID  IMAGE           ...  CREATED        STATUS        ...
+47d677dcfba4  jpetazzo/clock  ...  2 minutes ago  Up 2 minutes  ...
+      </code>
+    </pre>
+    <p>Docker ci fornisce:</p>
+    <ul>
+      <li class="fragment" data-fragment-index="0">L'ID (troncato) del nostro container.</li>
+      <li class="fragment" data-fragment-index="1">L'immagine utilizzata per eseguire il container.</li>
+      <li class="fragment" data-fragment-index="2">L'uptime del nostro container.</li>
+      <li class="fragment" data-fragment-index="3">Altre informazioni (COMMAND, PORTS, NAME) che spiegheremo più avanti.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Lanciamo un altro po' di container</h2>
+    <p>
+      Lanciate un altro po' di container
+    </p>
+    <pre>
+      <code>
+docker run -d jpetazzo/clock
+57ad9bdfc06bb4407c47220cf59ce21585dce9a1298d7a67488359aeaea8ae2a
+docker run -d jpetazzo/clock
+068cc994ffd0190bbe025ba74e4c0771a5d8f14734af772ddee8dc1aaf20567d
+      </code>
+    </pre>
+    <p>Controllate che <code>docker ps</code> elenchi tutti i container che avete eseguito.</p>
+  </section>
+
+  <section>
+    <h2>Due flag utili per il comando <code>docker ps</code></h2>
+    <p>
+      Per visualizzare solamente l'ultimo container eseguito:
+    </p>
+    <pre> 
+      <code>
+$ docker ps -l
+CONTAINER ID  IMAGE           ...  CREATED        STATUS        ...
+068cc994ffd0  jpetazzo/clock  ...  2 minutes ago  Up 2 minutes  ...
+      </code>
+    </pre>
+    <p>Per elencare solamente gli ID dei container:</p>
+    <pre> 
+      <code>
+$ docker ps -q
+068cc994ffd0
+57ad9bdfc06b
+47d677dcfba4
+      </code>
+    </pre>
+    <p>Combinando i due flag si ottiene l'ID dell'ultimo container</p>
+    <pre> 
+      <code>
+$ docker ps -lq
+068cc994ffd0
+      </code>
+    </pre>
+  </section>
+
+  <section>
+    <h2>Visualizzare i log di un container</h2>
+    <p>
+      Abbiamo detto che Docker logga tutto l'output di un container.
+    </p>
+    <p>
+      Vediamo se è vero.
+    </p>
+    <pre> 
+      <code>
+$ docker logs 65ca
+Sun Oct  2 09:07:52 UTC 2016
+Sun Oct  2 09:07:53 UTC 2016
+Sun Oct  2 09:07:54 UTC 2016
+...
+      </code>
+    </pre>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Abbiamo specificato un prefisso dll'ID completo del container</li>
+      <li class="fragment" data-fragment-index="1">Naturalmente è possibile specificare l'intero ID</li>
+      <li class="fragment" data-fragment-index="2">Il comando <code>logs</code> mostra tutti i log del container per intero
+        (talvolta è un po' eccessivo quindi vediamo come risolvere questo problema.)
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Visualizzare solamente la coda dei log (tail)</h2>
+    <p>
+    Per evitare di essere spammati con vagonate di pagine di log possiamo utilizzare l'opzione <code>--tail</code>:
+    </p>
+    <pre> 
+      <code>
+$ docker logs --tail 3 65ca
+Sun Oct  2 09:09:27 UTC 2016
+Sun Oct  2 09:09:28 UTC 2016
+Sun Oct  2 09:09:29 UTC 2016
+      </code>
+    </pre>
+    <ul>
+      <li>Il parametro rappresenta il nomero di linee che vogliamo visualizzare.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Seguire i log in tempo reale</h2>
+    <p>
+    Esattamente come il comando UNIX <code>tail -f</code>, possiamo seguire i log del nostro container:
+    </p>
+    <pre> 
+      <code>
+$ docker logs --tail 1 --follow 65ca
+Sun Oct  2 09:13:36 UTC 2016
+Sun Oct  2 09:13:37 UTC 2016
+Sun Oct  2 09:13:38 UTC 2016
+Sun Oct  2 09:13:39 UTC 2016
+^C
+      </code>
+    </pre>
+    <ul>
+      <li>Questo comando mostrerà l'ultima linea del file di log.</li>
+      <li>Quindi continuerà a mostrare i log in tempo reale.</li>
+      <li>Per uscire è sufficiente utilizzare <code>^C</code></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Arrestare i container</h2>
+    <p>
+      Ci sono due vie per arrestare l'esecuzione del nostri container che girano in background: 
+    </p>
+    <ul>
+      <li>Ucciderli con il comando <code>docker kill</code>.</li>
+      <li>Arrestarli con il comando <code>docker stop</code>.</li>
+    </ul>
+    <p>
+    Il primo arresta il container immediatamente utilizzando il segnale <code>KILL</code>.
+    </p>
+    <p>
+      Il secondo è meno brutale. Invia un segnale <code>TERM</code> e attende 10 secondi, se dopo questo tempo il container
+      non è ancora arrestato invia un segnale <code>KILL</code>.
+    </p>
+    <p>
+      RICORDA: il segnale <code>KILL</code> non può essere intercettato e terminerà il container in modo forzoso.
+    </p>
+  </section>
+
+  <section>
+    <h2>Arrestiamo i nostri container</h2>
+    <p>
+      Arrestiamo uno dei nostri container:
+    </p>
+    <pre> 
+      <code>
+$ docker stop 65ca
+65ca
+      </code>
+    </pre>
+    <p>
+      Questa operazione impiegherà 10 secondi:
+    </p>
+    <ul>
+      <li>Docker invia il segnale <code>TERM</code>;</li>
+      <li>il container non reagirà a questo segnale (è un semplice script di Shell senza alcuna logica per gestire i segnali),</li>
+      <li>dopo 10 secondi visto che il container non si è arrestato Docker invierà il segnale <code>KILL</code>;</li>
+      <li>questo termina il container.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Uccidiamo tutti gli altri container</h2>
+    <p>
+      Utilizziamo la forza bruta con gli altri due container rimasi:
+    </p>
+    <pre> 
+      <code>
+$ docker kill 0f5e c14a
+0f5e
+c14a
+      </code>
+    </pre>
+    <p>
+      Sia il comando <code>stop</code> che <code>kill</code> possono avere come argomenti più ID di container.
+    </p>
+    <p>
+      I container indicati verranno terminati immediatamente senza attendere i 10 secondi.
+    </p>
+    <p>
+      Verifichiamo che sia effettivamente così:
+    </p>
+    <pre> 
+      <code>
+$ docker ps
+      </code>
+    </pre>
+  </section>
+
+  <section>
+    <h2>Elenchiamo anche i container arrestati</h2>
+    <p>
+    Possiamo elencare anche i container arrestati utilizzando l'opzione <code>-a (--all)</code>
+    </p>
+    <pre> 
+      <code>
+$ docker ps -a
+CONTAINER ID        IMAGE               ...   CREATED             STATUS                                
+c14a27fb3955        jpetazzo/clock      ...   18 minutes ago      Exited (137) Less than a second ago   
+0f5ef5632456        jpetazzo/clock      ...   18 minutes ago      Exited (137) Less than a second ago   
+65ca9dc7fc9f        jpetazzo/clock      ...   11 hours ago        Exited (137) Less than a second ago   
+989976a9bece        ubuntu              ...   13 hours ago        Exited (0) 12 hours ago               
+      </code>
+    </pre>
+  </section>
+</section>
+
+<section>
+  <section>
+    <h2>Far ripartire e "attaccarsi" ad un container</h2>
+  </section>
+  
+  <section>
+    <h2>Far ripartire e agganciarsi ad un container</h2>
+    <h3>Obiettivi</h3>
+    <p>  
+      Abbiamo lanciato i container in foreground e in background.
+    </p>
+    <p>
+      Ora vedremo come:
+    </p>
+    <ul>
+      <li>Inviare un container in background.</li>
+      <li>Agganciarsi ad un container che gira in background per riportarlo in foreground.</li>
+      <li>Far ripartire un container arrestato.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Backgroud e Foreground</h2>
+    <p>  
+      La distinzione tra background e foreground è opinabile.
+    </p>
+    <p>
+      Dal punto di vista di Docker tutti i container sono creati uguali.
+    </p>
+    <p>
+     Tutti i container vengono eseguiti alla stessa maniera, sia che vi sia un client agganciato ad essi o meno. 
+    </p>
+    <p>
+      E' sempre possibile sganciarsi da un container e poi riagganciarvisi.
+    </p>
+    <p>
+      ANALOGIA: agganciarsi ad un container è come attaccare tastiera e schermo a un server fisico.
+    </p>
+  </section>
+
+  <section>
+    <h2>Sganciarsi da un container</h2>
+    <ul>
+      <li class="fragment" data-fragment-index="0">Se abbiamo fatto partire un container in modalità interattiva 
+        ossia con l'opzione <code>-it</code> possiamo sganciarci da esso.
+      </li>
+      <li class="fragment" data-fragment-index="1">La sequenza di "sgancio" è <code>^P^Q</code></li>
+      <li class="fragment" data-fragment-index="2">Altrimenti ci si può sganciare uccidnedo il client Docker
+        (ma NON attraverso <code>^C</code>, pqerché in questo modo si invierebbe un <code>SIGINT</code> al container). 
+      </li>
+    </ul>
+    <p class="fragment" data-fragment-index="3">Quindi cosa significa esattamente <code>-it</code></p>
+    <ul>
+      <li class="fragment" data-fragment-index="5"><code>-t</code> significa "alloca un terminale".</li>
+      <li class="fragment" data-fragment-index="6"><code>-i</code> significa "connetti la stdin al terminale".</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sganciarsi da un container non interattivo</h2>
+    <ul>
+      <li class="fragment" data-fragment-index="0"><b>ATTENZIONE:</b> se il container non è stato lanviato con le opzoni <code>-it</code> ...
+       <ul>
+         <li class="fragment" data-fragment-index="1">Non ci si potrà sganciare da esso con la sequenza <code>^P^Q</code></li>
+         <li class="fragment" data-fragment-index="2">L'utilizzo del <code>^C</code> farebbe proxare il comando al container e lo terminerebbe.</li>
+       </ul> 
+      </li>
+      <li class="fragment" data-fragment-index="3">Ricordarsi: che è sempre possibile sganciarsi terminando il Docker Client.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Controllare l'output di un container</h2>
+    <ul>
+      <li><code>docker attach</code> va utilizzato nel caso in cui si intenda fornire input al container</li>
+      <li>Se si vuole invece controllare solamente l'output di un container è meglio utilizzare <code>docker logs</code></li>
+    </ul>
+    <pre> 
+      <code>
+$ docker logs --tail 1 --follow <containerID>
+      </code>
+    </pre>
+  </section>
+
+  <section>
+    <h2>Far ripartire un container</h2>
+    <p>Quando un container è uscito si trova in stato di arresto.</p>
+    <p>Per farlo ripartire è sufficiente utilizzare il comando <code>start</code></p>
+    <pre> 
+      <code>
+$ docker start <yourContainerID> 
+      </code>
+    </pre>
+    <p>Il container verra fatto ripartire con le stesse opzioni con cui era stato eseguito originariamente.</p>
+    <p>Se si vuole interagire con esso ci si può riagganciare:</p>
+    <pre> 
+      <code>
+$ docker attach <yourContainerID> 
+      </code>
+    </pre>
+    <p>Utilizzare il comando <code>docker ps -a</code> per identificare l'ID di un precedente container <code>jpetazzo/clock</code>
+    e fate alcune prove con questi comandi.</p>
+  </section>
+
+  <section>
+    <h2>Agganciarsi ad una REPL</h2>
+    <ul>
+      <li class="fragment" data-fragment-index="0">REPL = Read, Eval, Print, Loop</li>
+      <li class="fragment" data-fragment-index="1">Tipicamente una shell</li>
+      <li class="fragment" data-fragment-index="2">Sintomo: esegui <code>docker attach</code> e non vedi nulla</li>
+      <li class="fragment" data-fragment-index="3">La REPL non sa che ti sei agganciato e quindi non stampa nulla.</li>
+      <li class="fragment" data-fragment-index="4">Provare con la combinazione <code>^L</code> o con il tasto <code>Enter</code></li>
+    </ul>
+  </section>
+</section>
 
 <section>
 	<h2>Ma cos'è un Linux container?</h2>
@@ -543,9 +1266,6 @@ E: Unable to correct problems, you have held broken packages.</code></pre>
     <p>
         <img src="docker-img/docker-windows.png">
     </p>
-</section>
-
-
 </section>
 
 <section>
